@@ -38,31 +38,6 @@ public class DeptServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String operation = req.getParameter("operation");
 		
-//		if("Cancel".equals(operation)) {
-//			req.setAttribute("depts", deptDAO.getAll());
-//		    req.getRequestDispatcher("depts.jsp").forward(req, resp);
-//		    return; 
-//		} 
-//		
-//		Dept department = Dept.builder()
-//				.id(Integer.parseInt(req.getParameter("id")))
-//				.name(req.getParameter("name"))
-//				.location(req.getParameter("location"))
-//				.build();
-//		
-//		if("Save".equals(operation)) {
-//			deptDAO.save(department);
-//			req.setAttribute("depts", deptDAO.getAll());
-//		    req.getRequestDispatcher("depts.jsp").forward(req, resp);
-//		    return; 
-//		}
-//		if("Update".equals(operation)) {
-//			deptDAO.update(department);
-//			req.setAttribute("depts", deptDAO.getAll());
-//		    req.getRequestDispatcher("depts.jsp").forward(req, resp);
-//		    return; 
-//		}
-//		
 		HttpSession session = req.getSession();
 		Dept current =  (Dept) session.getAttribute("current");
 		if(current == null) {
@@ -78,6 +53,41 @@ public class DeptServlet extends HttpServlet {
 				current = deptDAO.next(current.getId());
 			}
 		}
+		
+		if("Cancel".equals(operation)) {
+			req.setAttribute("depts", deptDAO.getAll());
+		    req.getRequestDispatcher("depts.jsp").forward(req, resp);
+		    return; 
+		} 
+//		
+//		
+//		
+		
+		if("Save".equals(operation)) {
+			Dept department = Dept.builder()
+					.id(Integer.parseInt(req.getParameter("id")))
+					.name(req.getParameter("name"))
+					.location(req.getParameter("location"))
+					.build();
+	
+			deptDAO.save(department);
+			req.setAttribute("dept", deptDAO.getDept(current.getId()));
+		    req.getRequestDispatcher("depts.jsp").forward(req, resp);
+		    return; 
+		}
+		if("Update".equals(operation)) {
+			Dept department = Dept.builder()
+					.id(Integer.parseInt(req.getParameter("id")))
+					.name(req.getParameter("name"))
+					.location(req.getParameter("location"))
+					.build();
+			deptDAO.update(department);
+			req.setAttribute("dept", deptDAO.getDept(current.getId()));
+		    req.getRequestDispatcher("depts.jsp").forward(req, resp);
+		    return; 
+		}
+//		
+		
 		session.setAttribute("current", current);
 		req.setAttribute("emplist", deptDAO.setDept(current.getId()));
 		//Expressions in JSP can work with object in session also....
@@ -160,30 +170,30 @@ public class DeptServlet extends HttpServlet {
 		 
          
 //         
-//      if("Update".equals(operation)) {
-//   	 int id = Integer.parseInt(req.getParameter("id"));
-//   	 Dept d = deptDAO.getDept(id);
-//   	 req.setAttribute("dept", d);
-//   	 req.setAttribute("mode", "Update");
-//   	 req.setAttribute("readonly", "readonly");
-//   	 req.getRequestDispatcher("editDepartment.jsp").forward(req, resp);
-//   	 return;
-//   	 
-//    }
-//  
-//    if("Delete".equals(operation)) {
-//   	 int id = Integer.parseInt(req.getParameter("id"));
-//   	 deptDAO.delete(id);
-//   	
-//   	 req.setAttribute("depts", deptDAO.getAll());
-//	    req.getRequestDispatcher("depts.jsp").forward(req, resp);
-//	    return; 
-//    }
-//    if("new".equals(operation)) {
-//   	 req.setAttribute("mode", "Save");
-//   	 req.getRequestDispatcher("editDepartment.jsp").forward(req, resp);
-//   	 return;
-//    }
+      if("Update".equals(operation)) {
+   	 int id = Integer.parseInt(req.getParameter("id"));
+   	 Dept d = deptDAO.getDept(id);
+   	 req.setAttribute("dept", d);
+   	 req.setAttribute("mode", "Update");
+   	 req.setAttribute("readonly", "readonly");
+   	 req.getRequestDispatcher("editDepartment.jsp").forward(req, resp);
+   	 return;
+   	 
+    }
+  
+    if("Delete".equals(operation)) {
+   	 int id = Integer.parseInt(req.getParameter("id"));
+   	 deptDAO.delete(id);
+   	
+   	 req.setAttribute("depts", deptDAO.getAll());
+	    req.getRequestDispatcher("depts.jsp").forward(req, resp);
+	    return; 
+    }
+    if("new".equals(operation)) {
+   	 req.setAttribute("mode", "Save");
+   	 req.getRequestDispatcher("editDepartment.jsp").forward(req, resp);
+   	 return;
+    }
 		
 		
 		

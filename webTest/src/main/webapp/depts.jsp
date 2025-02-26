@@ -25,10 +25,16 @@
 				<td>${dept.location}</td>
 			</tr>
 			<tr>
+			<td>
+			<a href="depts?operation=Update&id=${dept.id}">Update</a>
+			<a href="depts?operation=Delete&id=${dept.id}">Delete</a>
+			</td>
+			<td colspan="7">
+			<a href="depts?operation=new">New Department</a>
+			</td>
+			</tr>
+			<tr>
 				<td colspan="2">
-			    <input type="submit" name="operation" value="new" /> 
-				<input type="submit" name="operation" value="Update" /> 
-				<input type="submit" name="operation" value="Delete" />
 			    <input type="submit" name="operation" value="First" /> 
 			    <input type="submit" name="operation" value="Previous" /> 
 			    <input type="submit" name="operation" value="Next" /> 
