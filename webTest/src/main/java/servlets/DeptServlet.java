@@ -33,11 +33,19 @@ public class DeptServlet extends HttpServlet {
 	  
 	  private EmployeeDAO dao;
 		private DeptService deptService;
+		
+		
+	
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		deptDAO = new DeptDAOImpl(config.getServletContext());
-		dao = new EmployeeDAOImpl(config.getServletContext()); 
+		String url=(String) config.getServletContext().getAttribute("url");
+		String username=(String) config.getServletContext().getAttribute("username");
+		String password= (String) config.getServletContext().getAttribute("password");
+	
+		
+		deptDAO = new DeptDAOImpl(url,username,password);
+		dao = new EmployeeDAOImpl(url,username,password); 
 		deptService = new DeptServiceImpl(dao);
 		
 //		deptDAO.save(new Dept(1,"HR","Blr"));

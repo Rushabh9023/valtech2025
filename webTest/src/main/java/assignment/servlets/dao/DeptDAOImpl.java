@@ -18,17 +18,30 @@ public class DeptDAOImpl implements DeptDAO {
 
 	private List<Dept> depts = new ArrayList<Dept>();
 	
-	ServletContext sc;
-	public DeptDAOImpl(ServletContext sc) {
-		this.sc=sc;
+//	ServletContext sc;
+	private String url;
+	private String username;
+	private String password;
+//	public DeptDAOImpl(ServletContext sc) {
+//		this.sc=sc;
+//	}
+	public DeptDAOImpl(String url,String username,String password) {
+		
+		this.url = url;
+		this.username = username;
+		this.password = password;
 	}
 	
-	private Connection getConnection(ServletContext sc) throws SQLException {
-		String url=(String) sc.getAttribute("url");
-		String username=(String) sc.getAttribute("username");
-		String password= (String) sc.getAttribute("password");
+	private Connection getConnection(String url,String username,String password) throws SQLException {
 		return DriverManager.getConnection(url, username, password);
 	}
+//	
+//	private Connection getConnection(ServletContext sc) throws SQLException {
+//		String url=(String) sc.getAttribute("url");
+//		String username=(String) sc.getAttribute("username");
+//		String password= (String) sc.getAttribute("password");
+//		return DriverManager.getConnection(url, username, password);
+//	}
 
 	private void setValuesToPS(Dept dept,PreparedStatement ps) throws SQLException {
 		ps.setString(1, dept.getName());
@@ -38,7 +51,7 @@ public class DeptDAOImpl implements DeptDAO {
 
 	@Override
 	public void save(Dept dept) {
-		try (Connection conn = getConnection(this.sc)){
+		try (Connection conn = getConnection(this.url,this.username,this.password)){
 			PreparedStatement ps = conn.prepareStatement
 					("INSERT INTO DEPARTMENT (NAME ,LOCATION, ID) VALUES(?,?,?)");
 			setValuesToPS(dept, ps);
@@ -53,7 +66,7 @@ public class DeptDAOImpl implements DeptDAO {
 
 	@Override
 	public void update(Dept dept) {
-		try (Connection conn = getConnection(this.sc)){
+		try (Connection conn = getConnection(this.url,this.username,this.password)){
 			PreparedStatement ps = conn.prepareStatement
 					("UPDATE DEPARTMENT SET NAME=?,LOCATION=? WHERE ID = ?");
 			setValuesToPS(dept, ps);
@@ -67,7 +80,7 @@ public class DeptDAOImpl implements DeptDAO {
 	
 	@Override
 	public void delete(int id) {
-		try (Connection conn = getConnection(this.sc)){
+		try (Connection conn = getConnection(this.url,this.username,this.password)){
 			PreparedStatement ps = conn.prepareStatement
 					("DELETE FROM DEPARTMENT WHERE ID = ?");
 			ps.setInt(1, id);
@@ -80,7 +93,7 @@ public class DeptDAOImpl implements DeptDAO {
 	
 	@Override
 	public Dept getDept(int id) {
-        try (Connection conn = getConnection(this.sc)){
+        try (Connection conn = getConnection(this.url,this.username,this.password)){
         	PreparedStatement ps = conn.prepareStatement
         			("SELECT ID,NAME,LOCATION FROM DEPARTMENT WHERE ID = ?");
         	ps.setInt(1, id);
@@ -108,7 +121,7 @@ public class DeptDAOImpl implements DeptDAO {
 	@Override
 	public List<Employee> setDept(int id) {
 		List<Employee> employee = new ArrayList<Employee>();
-		try(Connection conn = getConnection(this.sc)){
+		try(Connection conn = getConnection(this.url,this.username,this.password)){
 			PreparedStatement ps = conn.prepareStatement
 					("SELECT ID,NAME,AGE,GENDER,SALARY,EXPERIENCE,LEVEL,DEPT_ID FROM EMPLOYEE WHERE DEPT_ID = ?");
 			ps.setInt(1, id);
@@ -137,7 +150,7 @@ public class DeptDAOImpl implements DeptDAO {
 	@Override
 	public List<Dept> getAll() {
        List<Dept> department = new ArrayList<Dept>();
-       try (Connection conn = getConnection(this.sc)){
+       try (Connection conn = getConnection(this.url,this.username,this.password)){
 			PreparedStatement ps = conn.prepareStatement
 					("SELECT ID,NAME,LOCATION FROM DEPARTMENT");
 			ResultSet rs = ps.executeQuery();
@@ -180,61 +193,6 @@ public class DeptDAOImpl implements DeptDAO {
 
 	
 	
-//	@Override
-//	public Dept previous(int id) {
-//		if(id==1) return getDept(1);
-//		return depts.get(id-1);
-//	}
-	
-	
-//		public DeptDAOImpl() {
-//		depts = new HashMap<Integer, Dept>();
-//	}
-//	@Override
-//	public void save(Dept dept) {
-//		depts.put(dept.getId(), dept);
-//		
-//	}
-//	
-//	@Override
-//	public void update(Dept dept) {
-//		depts.put(dept.getId(), dept);
-//	}
-//	
-//	@Override
-//	public Dept getDept(int id) {
-//		return depts.get(id);
-//	}
-//	
-//	@Override
-//	public void delete(int id) {
-//		depts.remove(id);
-//	}
-//	
-//	@Override
-//	public Set<Dept> getAll(){
-//		Set<Dept> all = new HashSet<Dept>();
-//		for(int id : depts.keySet()) {
-//			all.add(depts.get(id));
-//		}
-//		return all;
-//	}
-//
-//	@Override
-//	public Dept first() {
-//		return depts.get(depts.keySet().stream().min((a,b) -> (a - b)).get());
-//	}
-//
-//	@Override
-//	public Dept last() {
-//		return depts.get(depts.keySet().stream().max((a,b) -> (a - b)).get());
-//	}
-//
-//	@Override
-//	public Dept next(int id) {
-//		if(id == depts.size()) return depts.get(depts.size());
-//		return depts.get(id+1);
-//	}
-//
+
 
 }

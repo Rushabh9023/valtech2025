@@ -25,7 +25,11 @@ public class EmployeesServlet extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 
-		dao = new EmployeeDAOImpl(config.getServletContext());
+		String url=(String) config.getServletContext().getAttribute("url");
+		String username=(String) config.getServletContext().getAttribute("username");
+		String password= (String) config.getServletContext().getAttribute("password");
+		
+		dao = new EmployeeDAOImpl(url,username,password);
 		 empService = new EmployeeServiceImpl(dao);
 	
 	}

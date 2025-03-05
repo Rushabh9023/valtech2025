@@ -21,15 +21,16 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	
 	
 	
-	ServletContext sc;
-	public EmployeeDAOImpl(ServletContext sc) {
-		this.sc=sc;
+	private String url;
+	private String username;
+	private String password;
+	public EmployeeDAOImpl(String url,String username,String password) {
+		this.url = url;
+		this.username = username;
+		this.password = password;
 	}
 	
-	private Connection getConnection(ServletContext sc) throws SQLException {
-		String url=(String) sc.getAttribute("url");
-		String username=(String) sc.getAttribute("username");
-		String password= (String) sc.getAttribute("password");
+	private Connection getConnection(String url,String username,String password) throws SQLException {
 		return DriverManager.getConnection(url, username, password);
 	}
 
@@ -37,7 +38,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	
 	@Override
 	public void save(Employee e) {
-       try (Connection conn = getConnection(this.sc)){
+       try (Connection conn = getConnection(this.url,this.username,this.password)){
 		PreparedStatement ps = conn.prepareStatement
 				("INSERT INTO EMPLOYEE (NAME,AGE,GENDER,SALARY,EXPERIENCE,LEVEL,DEPT_ID,ID) VALUES(?,?,?,?,?,?,?,?)");
 	setValuesToPrepareStatement(e, ps);
@@ -63,7 +64,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	@Override
 	public void update(Employee e) {
-      try(Connection conn = getConnection(this.sc)){
+      try(Connection conn = getConnection(this.url,this.username,this.password)){
     	  PreparedStatement ps = conn.prepareStatement
   				("UPDATE EMPLOYEE SET NAME=?,AGE=?,GENDER=?,SALARY=?,EXPERIENCE=?,LEVEL=?,DEPT_ID=? WHERE ID = ?");
      setValuesToPrepareStatement(e, ps);
@@ -76,7 +77,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	@Override
 	public void delete(int id) {  
-      try(Connection conn = getConnection(this.sc)){
+      try(Connection conn = getConnection(this.url,this.username,this.password)){
     	  PreparedStatement ps = conn.prepareStatement
     				("DELETE FROM EMPLOYEE WHERE ID = ?");
     	  ps.setInt(1, id);
@@ -89,7 +90,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	@Override
 	public Employee get(int id) {
-		try(Connection conn = getConnection(this.sc)){
+		try(Connection conn = getConnection(this.url,this.username,this.password)){
 			 PreparedStatement ps = conn.prepareStatement
 					 ("SELECT ID,NAME,AGE,GENDER,SALARY,EXPERIENCE,LEVEL,DEPT_ID FROM EMPLOYEE WHERE ID = ?");
 			ps.setInt(1, id);
@@ -121,7 +122,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	@Override
 	public List<Employee> getAll() {
 		List<Employee> emps = new ArrayList<Employee>();
-		try (Connection conn = getConnection(this.sc)){
+		try (Connection conn = getConnection(this.url,this.username,this.password)){
 			PreparedStatement ps = conn.prepareStatement
 					("SELECT ID,NAME,AGE,GENDER,SALARY,EXPERIENCE,LEVEL,DEPT_ID FROM EMPLOYEE");
 			ResultSet rs = ps.executeQuery();

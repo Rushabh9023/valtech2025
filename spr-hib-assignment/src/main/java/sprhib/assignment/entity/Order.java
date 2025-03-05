@@ -1,6 +1,5 @@
 package sprhib.assignment.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -49,7 +48,6 @@ public class Order {
 	}
 
 	public void addLineItem(LineItems li) {
-		if(lineItems == null ) lineItems = new ArrayList<LineItems>();
 		lineItems.add(li);
 		li.setOrder(this);
 	}
