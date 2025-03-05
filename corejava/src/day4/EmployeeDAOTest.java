@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import Assignment.Employee;
-import Assignment.Employee.Gender;
+import assignment_1.Employee;
+import assignment_1.Employee.Gender;
 
 class EmployeeDAOTest {
 

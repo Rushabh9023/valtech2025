@@ -45,18 +45,21 @@ class ArithmeticImplTest {
 	@MethodSource(value = "addArgumentsProvider")
 	void testAddWithMethodSource(int a, int b, int res) {
 		assertEquals(res, arithmetic.add(a, b));
+		System.out.println("AddWithMethodSource");
 		}
 	
 	@ParameterizedTest(name = "Add with CSV File A = {0} B = {1} Result = {2} ")
 	@CsvFileSource(files = "data.csv")
 	void testAddWithCSVFile(int a, int b, int res) {
 		assertEquals(res, arithmetic.add(a, b));
+		System.out.println("AddWithCSVFile");
 	}
 	
 	@ParameterizedTest(name = "Add with CSV Source A = {0} B = {1} Result = {2}")
 	@CsvSource(value = {"2,3,5","-1,3,2","0,3,3","-1,-1,-2"})
 	void testAddWithCSV(int a, int b, int res) {
 		assertEquals(res, arithmetic.add(a, b));
+		System.out.println("AddWithCSV");
 	}
 	
     @ParameterizedTest(name = "Add With Multiple Values")
@@ -67,18 +70,21 @@ class ArithmeticImplTest {
     			             .stream().map(it -> Integer.parseInt(it))
     			             .collect(Collectors.toList());
     	assertEquals(args.get(0), arithmetic.add(args.get(1), args.get(2)));
+    	System.out.println("AddAgain");
 	}
 
 	@Test
 	void testAdd() {
 		System.out.println("Add...");
 		assertEquals(5, arithmetic.add(2, 3));
+		System.out.println("****************************");
 	}
 
 	@Test
 	void testSub() {
 		System.out.println("Sub...");
 		assertEquals(5, arithmetic.sub(8, 3));
+		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 	}
 
 }

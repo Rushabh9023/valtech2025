@@ -1,10 +1,7 @@
 package day3;
 
-import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Iterator;
-import java.util.concurrent.ForkJoinPool;
-
+import java.lang.Thread;
 import org.junit.jupiter.api.Test;
 
 class ThreadsTest {

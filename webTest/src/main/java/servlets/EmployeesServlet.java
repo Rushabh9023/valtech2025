@@ -3,12 +3,12 @@ package servlets;
 import java.io.IOException;
 import java.util.List;
 
-import javax.swing.SortOrder;
-
-import dao.Employee;
-import dao.Employee.Gender;
-import dao.EmployeeDAO;
-import dao.EmployeeDAOImpl;
+import assignment.servlets.dao.EmployeeDAO;
+import assignment.servlets.dao.EmployeeDAOImpl;
+import assignment.servlets.entity.Employee;
+import assignment.servlets.entity.Employee.Gender;
+import assignment.servlets.service.EmployeeService;
+import assignment.servlets.service.EmployeeServiceImpl;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,11 +20,13 @@ import jakarta.servlet.http.HttpServletResponse;
 public class EmployeesServlet extends HttpServlet {
 	
 	private EmployeeDAO dao;
+	private EmployeeService empService;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 
 		dao = new EmployeeDAOImpl(config.getServletContext());
+		 empService = new EmployeeServiceImpl(dao);
 	
 	}
 	
@@ -106,23 +108,32 @@ public class EmployeesServlet extends HttpServlet {
         		 sortBy="id";
         	 }
         	 List<Employee> empsorted = null;
+        	 
         	 switch(sortBy) {
-        	 case "id":empsorted = dao.sortById(sortOrder);
-        		 break;
-        	 case "name":empsorted = dao.sortByName(sortOrder);
-        	     break;
-        	 case "age":empsorted = dao.sortByAge(sortOrder);
-    		 break;
-        	 case "gender":empsorted = dao.sortByGender(sortOrder);
-    		 break;
-        	 case "salary":empsorted = dao.sortBySalary(sortOrder);
-    		 break;
-        	 case "experience":empsorted = dao.sortByExperience(sortOrder);
-    		 break;
-        	 case "level":empsorted = dao.sortByLevel(sortOrder);
-    		 break;
-        	 case "deptid":empsorted = dao.sortByDeptId(sortOrder);
-    		 break;
+        	 
+        	 case "id":empsorted = empService.sortEmployeesById(sortOrder);
+        	 	break;
+        		 
+        	 case "name":empsorted = empService.sortEmployeesByName(sortOrder);
+        	 	break;
+        	     
+        	 case "age":empsorted = empService.sortEmployeesByAge(sortOrder);
+    		 	break;
+    		 
+        	 case "gender":empsorted = empService.sortEmployeesByGender(sortOrder);
+        	 	break;
+        	 	
+        	 case "salary":empsorted = empService.sortEmployeesBySalary(sortOrder);
+    		 	break;
+    		 	
+        	 case "experience":empsorted = empService.sortEmployeesByExperience(sortOrder);
+    		 	break;
+    		 	
+        	 case "level":empsorted = empService.sortEmployeesByLevel(sortOrder);
+    		 	break;
+    		 	
+        	 case "deptid":empsorted = empService.sortEmployeesByDeptId(sortOrder);
+        	 	break;
         	 
         	 }
         	 req.setAttribute("emps", empsorted);

@@ -10,8 +10,8 @@ import java.util.List;
 
 import javax.management.RuntimeErrorException;
 
-import Assignment.Employee;
-import Assignment.Employee.Gender;
+import assignment_1.Employee;
+import assignment_1.Employee.Gender;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
 	

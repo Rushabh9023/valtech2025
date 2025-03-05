@@ -1,6 +1,6 @@
 package day5;
 
-import Assignment.Employee.Gender;
+import assignment_1.Employee.Gender;
 
 public record EmployeeRecord(int id,String name, int age,Gender gender,
 		float salary,int experience,int level) {

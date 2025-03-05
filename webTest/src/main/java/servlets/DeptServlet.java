@@ -6,7 +6,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import dao.Employee;
+import assignment.servlets.dao.DeptDAO;
+import assignment.servlets.dao.DeptDAOImpl;
+import assignment.servlets.dao.EmployeeDAO;
+import assignment.servlets.dao.EmployeeDAOImpl;
+import assignment.servlets.entity.Dept;
+import assignment.servlets.entity.Employee;
+import assignment.servlets.service.DeptService;
+import assignment.servlets.service.DeptServiceImpl;
+import assignment.servlets.service.EmployeeService;
+import assignment.servlets.service.EmployeeServiceImpl;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -21,10 +30,15 @@ public class DeptServlet extends HttpServlet {
 	
 	private DeptDAO deptDAO;
 	  List<Employee> empList; 
+	  
+	  private EmployeeDAO dao;
+		private DeptService deptService;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		deptDAO = new DeptDAOImpl(config.getServletContext());
+		dao = new EmployeeDAOImpl(config.getServletContext()); 
+		deptService = new DeptServiceImpl(dao);
 		
 //		deptDAO.save(new Dept(1,"HR","Blr"));
 //		deptDAO.save(new Dept(2,"HR","Ahm"));
@@ -125,22 +139,7 @@ public class DeptServlet extends HttpServlet {
 //            	 req.setAttribute("emplist",empList);
 //        	 }else {
         		 
-        	 empList = empList
-        	            .stream()
-        	            .filter(e -> name == null || name.isEmpty() || e.getName().toLowerCase().contains(name.toLowerCase()))
-        	            .filter(e -> age == null || age.isEmpty()
-        	                || (age.startsWith(">") ? e.getAge() >= Integer.parseInt(age.substring(1)) :
-        	                (age.startsWith("<") ? e.getAge() < Integer.parseInt(age.substring(1)) : e.getAge() == Integer.parseInt(age))))
-        	            .filter(e -> salary == null || salary.isEmpty()
-        	                || (salary.startsWith(">") ? e.getSalary() >= Integer.parseInt(salary.substring(1)) :
-        	                (salary.startsWith("<") ? e.getSalary() < Integer.parseInt(salary.substring(1)) : e.getSalary() == Integer.parseInt(salary))))
-        	            .filter(e -> level == null || level.isEmpty()
-        	                || (level.startsWith(">") ? e.getLevel() >= Integer.parseInt(level.substring(1)) :
-        	                (level.startsWith("<") ? e.getLevel() < Integer.parseInt(level.substring(1)) : e.getLevel() == Integer.parseInt(level))))
-        	            .filter(e -> experience == null || experience.isEmpty()
-        	                || (experience.startsWith(">") ? e.getExperience() >= Integer.parseInt(experience.substring(1)) :
-        	                (experience.startsWith("<") ? e.getExperience() < Integer.parseInt(experience.substring(1)) : e.getExperience() == Integer.parseInt(experience))))
-        	            .collect(Collectors.toList());
+        	 empList = deptService.serachEmployees(empList, name, age, salary, level, experience);
 
         	req.setAttribute("emplist", empList);
         		 
@@ -228,7 +227,8 @@ public class DeptServlet extends HttpServlet {
          
          Dept current;
          if (operation == null && sortBy == null) {  
-             current = deptDAO.first();  // Reset to first department
+        	// Reset to first department
+             current = deptDAO.first();  
              session.setAttribute("current", current);
          } else {
              current = (Dept) session.getAttribute("current");
@@ -253,131 +253,80 @@ public class DeptServlet extends HttpServlet {
          if("sort".equals(operation)) {
         	 if("name".equals(sortBy)) {
             	 if("asc".equals(sortOrder)) {
-            		 List<Employee> sortByNameAsc = empList
-            				 .stream()
-            				 .sorted((Employee e1 , Employee e2) -> e1.getName()
-            				 .compareToIgnoreCase(e2.getName()))
-            				 .collect(Collectors.toList());
-            		 req.setAttribute("emplist", sortByNameAsc);
+            		empList = deptService.sortEmployeesByNameAsc(sortOrder,empList);
+            		 req.setAttribute("emplist", empList);
             		 
             	 } else {
             		 System.out.println("----------------------------------------s");
-            		 List<Employee> sortByNameDesc = empList
-            				 .stream()
-            				 .sorted((Employee e1 , Employee e2) -> e2.getName()
-            				 .compareToIgnoreCase(e1.getName()))
-            				 .collect(Collectors.toList());
-            		 System.out.println("sortByNameDesc" + sortByNameDesc);
-            		 req.setAttribute("emplist", sortByNameDesc);
+            		 empList = deptService.sortEmployeesByNameDesc(sortOrder,empList);
+            		 req.setAttribute("emplist", empList);
             	 }
              } 
              
              if("id".equals(sortBy)) {
             	 if("asc".equals(sortOrder)) {
-            		 List<Employee> sortByIdAsc = empList
-            				 .stream()
-            				 .sorted((Employee e1 , Employee e2) -> Long.compare(e1.getId(), e2.getId()))
-            				 .collect(Collectors.toList());
-            		 req.setAttribute("emplist", sortByIdAsc);
-            		 
-            	 } else {
-            		 System.out.println("----------------------------------------s");
-            		 List<Employee> sortByIdDesc = empList
-            				 .stream()
-            				 .sorted((Employee e1 , Employee e2) -> Long.compare(e2.getId(), e1.getId()))
-            				 .collect(Collectors.toList());
-            		 req.setAttribute("emplist", sortByIdDesc);
-            	 }
+             		empList = deptService.sortEmployeesByIdAsc(sortOrder,empList);
+             		 req.setAttribute("emplist", empList);
+             		 
+             	 } else {
+             		 empList = deptService.sortEmployeesByIdDesc(sortOrder,empList);
+             		 req.setAttribute("emplist", empList);
+             	 }
              }
              
              if("age".equals(sortBy)) {
             	 if("asc".equals(sortOrder)) {
-            		 List<Employee> sortByAgeAsc = empList
-            				 .stream()
-            				 .sorted((Employee e1 , Employee e2) -> Integer.compare(e1.getAge(), e2.getAge()))
-            				 .collect(Collectors.toList());
-            		 req.setAttribute("emplist", sortByAgeAsc);
-            		 
-            	 } else {
-            		 System.out.println("----------------------------------------s");
-            		 List<Employee> sortByAgeDesc = empList
-            				 .stream()
-            				 .sorted((Employee e1 , Employee e2) -> Integer.compare(e2.getAge(), e1.getAge()))
-            				 .collect(Collectors.toList());
-            		req.setAttribute("emplist", sortByAgeDesc);
-            	 }
+             		empList = deptService.sortEmployeesByAgeAsc(sortOrder,empList);
+             		 req.setAttribute("emplist", empList);
+             		 
+             	 } else {
+             		 empList = deptService.sortEmployeesByAgeDesc(sortOrder,empList);
+             		 req.setAttribute("emplist", empList);
+             	 }
              }
              
              if("gender".equals(sortBy)) {
             	 if("asc".equals(sortOrder)) {
-            		 List<Employee> sortByGenderAsc = empList
-            				 .stream()
-            				 .sorted((Employee e1 , Employee e2) -> e1.getGender().compareTo(e2.getGender()))
-            				 .collect(Collectors.toList());
-            		 req.setAttribute("emplist", sortByGenderAsc);
-            		 
-            	 } else {
-            		 System.out.println("----------------------------------------s");
-            		 List<Employee> sortByGenderDesc = empList
-            				 .stream()
-            				 .sorted((Employee e1 , Employee e2) -> e2.getGender().compareTo(e1.getGender()))
-            				 .collect(Collectors.toList());
-            		req.setAttribute("emplist", sortByGenderDesc);
-            	 }
+             		empList = deptService.sortEmployeesByGenderAsc(sortOrder,empList);
+             		 req.setAttribute("emplist", empList);
+             		 
+             	 } else {
+             		 empList = deptService.sortEmployeesByGenderDesc(sortOrder,empList);
+             		 req.setAttribute("emplist", empList);
+             	 }
              }
              
              if("salary".equals(sortBy)) {
             	 if("asc".equals(sortOrder)) {
-            		 List<Employee> sortBySalaryAsc = empList
-            				 .stream()
-            				 .sorted((Employee e1 , Employee e2) -> Double.compare(e1.getSalary(), e2.getSalary()))
-            				 .collect(Collectors.toList());
-            		 req.setAttribute("emplist", sortBySalaryAsc);
-            		 
-            	 } else {
-            		 System.out.println("----------------------------------------s");
-            		 List<Employee> sortBySalaryDesc = empList
-            				 .stream()
-            				 .sorted((Employee e1 , Employee e2) -> Double.compare(e2.getSalary(), e1.getSalary()))
-            				 .collect(Collectors.toList());
-            		req.setAttribute("emplist", sortBySalaryDesc);
-            	 }
+             		empList = deptService.sortEmployeesBySalaryAsc(sortOrder,empList);
+             		 req.setAttribute("emplist", empList);
+             		 
+             	 } else {
+             		 empList = deptService.sortEmployeesBySalaryDesc(sortOrder,empList);
+             		 req.setAttribute("emplist", empList);
+             	 }
              }
              
              if("experience".equals(sortBy)) {
             	 if("asc".equals(sortOrder)) {
-            		 List<Employee> sortByExpAsc = empList
-            				 .stream()
-            				 .sorted((Employee e1 , Employee e2) -> Integer.compare(e1.getExperience(), e2.getExperience()))
-            				 .collect(Collectors.toList());
-            		 req.setAttribute("emplist", sortByExpAsc);
-            		 
-            	 } else {
-            		 System.out.println("----------------------------------------s");
-            		 List<Employee> sortByExpDesc = empList
-            				 .stream()
-            				 .sorted((Employee e1 , Employee e2) -> Integer.compare(e2.getExperience(), e1.getExperience()))
-            				 .collect(Collectors.toList());
-            		req.setAttribute("emplist", sortByExpDesc);
-            	 }
+             		empList = deptService.sortEmployeesByExperienceAsc(sortOrder,empList);
+             		 req.setAttribute("emplist", empList);
+             		 
+             	 } else {
+             		 empList = deptService.sortEmployeesByExperienceDesc(sortOrder,empList);
+             		 req.setAttribute("emplist", empList);
+             	 }
              }
              
              if("level".equals(sortBy)) {
             	 if("asc".equals(sortOrder)) {
-            		 List<Employee> sortByLevelAsc = empList
-            				 .stream()
-            				 .sorted((Employee e1 , Employee e2) -> Integer.compare(e1.getLevel(), e2.getLevel()))
-            				 .collect(Collectors.toList());
-            		 req.setAttribute("emplist", sortByLevelAsc);
-            		 
-            	 } else {
-            		 System.out.println("----------------------------------------s");
-            		 List<Employee> sortByLevelDesc = empList
-            				 .stream()
-            				 .sorted((Employee e1 , Employee e2) -> Integer.compare(e2.getLevel(), e1.getLevel()))
-            				 .collect(Collectors.toList());
-            		req.setAttribute("emplist", sortByLevelDesc);
-            	 }
+             		empList = deptService.sortEmployeesByLevelAsc(sortOrder,empList);
+             		 req.setAttribute("emplist", empList);
+             		 
+             	 } else {
+             		 empList = deptService.sortEmployeesByLevelDesc(sortOrder,empList);
+             		 req.setAttribute("emplist", empList);
+             	 }
              }
          }
 //        
