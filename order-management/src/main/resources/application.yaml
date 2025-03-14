@@ -4,7 +4,7 @@ spring:
 
   datasource:
     driver-class: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/training
+    url: jdbc:postgresql://localhost:5432/assignment
     username: postgres
     password: postgres
   

@@ -31,7 +31,6 @@ public class Employee implements Comparable<Employee>{
 
 		//parameterized constructor 
 		public Employee(long id, String name, int age, float salary, Gender gender, int level, int experience) {
-		super();
 		this.id = id;
 		this.name = name;
 		this.age = age;
@@ -65,7 +64,6 @@ public class Employee implements Comparable<Employee>{
 				.toString();
 	}
 
-//getters and setters 
 	public long getId() {
 		return id;
 	}

@@ -261,78 +261,78 @@ public class DeptServlet extends HttpServlet {
          if("sort".equals(operation)) {
         	 if("name".equals(sortBy)) {
             	 if("asc".equals(sortOrder)) {
-            		empList = deptService.sortEmployeesByNameAsc(sortOrder,empList);
+            		empList = deptService.sortEmployeesByNameAsc(empList);
             		 req.setAttribute("emplist", empList);
             		 
             	 } else {
             		 System.out.println("----------------------------------------s");
-            		 empList = deptService.sortEmployeesByNameDesc(sortOrder,empList);
+            		 empList = deptService.sortEmployeesByNameDesc(empList);
             		 req.setAttribute("emplist", empList);
             	 }
              } 
              
              if("id".equals(sortBy)) {
             	 if("asc".equals(sortOrder)) {
-             		empList = deptService.sortEmployeesByIdAsc(sortOrder,empList);
+             		empList = deptService.sortEmployeesByIdAsc(empList);
              		 req.setAttribute("emplist", empList);
              		 
              	 } else {
-             		 empList = deptService.sortEmployeesByIdDesc(sortOrder,empList);
+             		 empList = deptService.sortEmployeesByIdDesc(empList);
              		 req.setAttribute("emplist", empList);
              	 }
              }
              
              if("age".equals(sortBy)) {
             	 if("asc".equals(sortOrder)) {
-             		empList = deptService.sortEmployeesByAgeAsc(sortOrder,empList);
+             		empList = deptService.sortEmployeesByAgeAsc(empList);
              		 req.setAttribute("emplist", empList);
              		 
              	 } else {
-             		 empList = deptService.sortEmployeesByAgeDesc(sortOrder,empList);
+             		 empList = deptService.sortEmployeesByAgeDesc(empList);
              		 req.setAttribute("emplist", empList);
              	 }
              }
              
              if("gender".equals(sortBy)) {
             	 if("asc".equals(sortOrder)) {
-             		empList = deptService.sortEmployeesByGenderAsc(sortOrder,empList);
+             		empList = deptService.sortEmployeesByGenderAsc(empList);
              		 req.setAttribute("emplist", empList);
              		 
              	 } else {
-             		 empList = deptService.sortEmployeesByGenderDesc(sortOrder,empList);
+             		 empList = deptService.sortEmployeesByGenderDesc(empList);
              		 req.setAttribute("emplist", empList);
              	 }
              }
              
              if("salary".equals(sortBy)) {
             	 if("asc".equals(sortOrder)) {
-             		empList = deptService.sortEmployeesBySalaryAsc(sortOrder,empList);
+             		empList = deptService.sortEmployeesBySalaryAsc(empList);
              		 req.setAttribute("emplist", empList);
              		 
              	 } else {
-             		 empList = deptService.sortEmployeesBySalaryDesc(sortOrder,empList);
+             		 empList = deptService.sortEmployeesBySalaryDesc(empList);
              		 req.setAttribute("emplist", empList);
              	 }
              }
              
              if("experience".equals(sortBy)) {
             	 if("asc".equals(sortOrder)) {
-             		empList = deptService.sortEmployeesByExperienceAsc(sortOrder,empList);
+             		empList = deptService.sortEmployeesByExperienceAsc(empList);
              		 req.setAttribute("emplist", empList);
              		 
              	 } else {
-             		 empList = deptService.sortEmployeesByExperienceDesc(sortOrder,empList);
+             		 empList = deptService.sortEmployeesByExperienceDesc(empList);
              		 req.setAttribute("emplist", empList);
              	 }
              }
              
              if("level".equals(sortBy)) {
             	 if("asc".equals(sortOrder)) {
-             		empList = deptService.sortEmployeesByLevelAsc(sortOrder,empList);
+             		empList = deptService.sortEmployeesByLevelAsc(empList);
              		 req.setAttribute("emplist", empList);
              		 
              	 } else {
-             		 empList = deptService.sortEmployeesByLevelDesc(sortOrder,empList);
+             		 empList = deptService.sortEmployeesByLevelDesc(empList);
              		 req.setAttribute("emplist", empList);
              	 }
              }

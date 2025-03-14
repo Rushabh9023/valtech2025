@@ -16,4 +16,8 @@ public interface CustomerService {
 
 	List<Customer> getAll();
 
+	void disableCustomer(Customer c);
+
+	void enableCustomer(Customer c);
+
 }

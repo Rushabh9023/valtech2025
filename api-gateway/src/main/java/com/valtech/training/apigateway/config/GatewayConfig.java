@@ -12,6 +12,10 @@ public class GatewayConfig {
 public RouteLocator routeLocator(RouteLocatorBuilder builder) {
 	return builder.routes()
 			.route(p -> p.path("/get").uri("http://httpbin.org:80"))
+//			.route(p -> p.path("/api/v1/employees/*").uri("http://localhost:9010"))  //another way
+			.route(p -> p.path("/api/v1/employees/*").uri("lb://EMPLOYEE-SERVICE"))
+			.route(p -> p.path("/api/v1/leaves/*").uri("lb://LEAVE-SERVICE"))
+			.route(p -> p.path("/api/v1/leaveMasters/*").uri("lb://LEAVE-SERVICE"))
 			.build();
 }
 	

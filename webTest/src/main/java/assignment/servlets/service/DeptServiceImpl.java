@@ -17,24 +17,24 @@ public class DeptServiceImpl implements DeptService {
 	
 	
 @Override
-public List<Employee> sortEmployeesByIdAsc(String sortOrder,List<Employee> emps) {
+public List<Employee> sortEmployeesByIdAsc(List<Employee> emps) {
 			return emps.stream().sorted(Comparator.comparing(Employee::getId)).collect(Collectors.toList());
 			
 		}
 
 @Override
-public List<Employee> sortEmployeesByIdDesc(String sortOrder,List<Employee> emps) {
+public List<Employee> sortEmployeesByIdDesc(List<Employee> emps) {
 	return emps.stream().sorted(Comparator.comparing(Employee::getId).reversed()).collect(Collectors.toList());
 	
 }
 
 
 	@Override
-	public List<Employee> sortEmployeesByNameAsc(String sortOrder,List<Employee> emps) {
+	public List<Employee> sortEmployeesByNameAsc(List<Employee> emps) {
 			return emps.stream().sorted(Comparator.comparing(Employee::getName)).collect(Collectors.toList());
 	}
 	@Override
-	public List<Employee> sortEmployeesByNameDesc(String sortOrder,List<Employee> emps) {
+	public List<Employee> sortEmployeesByNameDesc(List<Employee> emps) {
 			return emps.stream().sorted(Comparator.comparing(Employee::getName).reversed()).collect(Collectors.toList());
 	}
 
@@ -42,11 +42,11 @@ public List<Employee> sortEmployeesByIdDesc(String sortOrder,List<Employee> emps
 
 	
 	@Override
-	public List<Employee> sortEmployeesByAgeAsc(String sortOrder,List<Employee> emps) {
+	public List<Employee> sortEmployeesByAgeAsc(List<Employee> emps) {
 			return emps.stream().sorted(Comparator.comparing(Employee::getAge)).collect(Collectors.toList());
 	}
 	@Override
-	public List<Employee> sortEmployeesByAgeDesc(String sortOrder,List<Employee> emps) {
+	public List<Employee> sortEmployeesByAgeDesc(List<Employee> emps) {
 			return emps.stream().sorted(Comparator.comparing(Employee::getAge).reversed()).collect(Collectors.toList());
 	}
 
@@ -54,11 +54,11 @@ public List<Employee> sortEmployeesByIdDesc(String sortOrder,List<Employee> emps
 
 	
 	@Override
-	public List<Employee> sortEmployeesByGenderAsc(String sortOrder,List<Employee> emps) {
+	public List<Employee> sortEmployeesByGenderAsc(List<Employee> emps) {
 			return emps.stream().sorted(Comparator.comparing(Employee::getGender)).collect(Collectors.toList());
 	}
 	@Override
-	public List<Employee> sortEmployeesByGenderDesc(String sortOrder,List<Employee> emps) {
+	public List<Employee> sortEmployeesByGenderDesc(List<Employee> emps) {
 			return emps.stream().sorted(Comparator.comparing(Employee::getGender).reversed()).collect(Collectors.toList());
 	}
 
@@ -66,11 +66,11 @@ public List<Employee> sortEmployeesByIdDesc(String sortOrder,List<Employee> emps
 
 
 	@Override
-	public List<Employee> sortEmployeesBySalaryAsc(String sortOrder,List<Employee> emps) {
+	public List<Employee> sortEmployeesBySalaryAsc(List<Employee> emps) {
 			return emps.stream().sorted(Comparator.comparing(Employee::getSalary)).collect(Collectors.toList());
 	}
 	@Override
-	public List<Employee> sortEmployeesBySalaryDesc(String sortOrder,List<Employee> emps) {
+	public List<Employee> sortEmployeesBySalaryDesc(List<Employee> emps) {
 			return emps.stream().sorted(Comparator.comparing(Employee::getSalary).reversed()).collect(Collectors.toList());
 	}
 
@@ -78,11 +78,11 @@ public List<Employee> sortEmployeesByIdDesc(String sortOrder,List<Employee> emps
 
 	
 	@Override
-	public List<Employee> sortEmployeesByExperienceAsc(String sortOrder,List<Employee> emps) {
+	public List<Employee> sortEmployeesByExperienceAsc(List<Employee> emps) {
 			return emps.stream().sorted(Comparator.comparing(Employee::getExperience)).collect(Collectors.toList());
 	}
 	@Override
-	public List<Employee> sortEmployeesByExperienceDesc(String sortOrder,List<Employee> emps) {
+	public List<Employee> sortEmployeesByExperienceDesc(List<Employee> emps) {
 			return emps.stream().sorted(Comparator.comparing(Employee::getExperience).reversed()).collect(Collectors.toList());
 	}
 
@@ -90,11 +90,11 @@ public List<Employee> sortEmployeesByIdDesc(String sortOrder,List<Employee> emps
 
 	
 	@Override
-	public List<Employee> sortEmployeesByLevelAsc(String sortOrder,List<Employee> emps) {
+	public List<Employee> sortEmployeesByLevelAsc(List<Employee> emps) {
 			return emps.stream().sorted(Comparator.comparing(Employee::getLevel)).collect(Collectors.toList());
 	}
 	@Override
-	public List<Employee> sortEmployeesByLevelDesc(String sortOrder,List<Employee> emps) {
+	public List<Employee> sortEmployeesByLevelDesc(List<Employee> emps) {
 			return emps.stream().sorted(Comparator.comparing(Employee::getLevel).reversed()).collect(Collectors.toList());
 	}
 	

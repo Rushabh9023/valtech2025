@@ -3,6 +3,7 @@ package sprhib.assignment.service;
 import java.util.List;
 
 import sprhib.assignment.dao.OrderHibDAO;
+import sprhib.assignment.entity.Customer;
 import sprhib.assignment.entity.Item;
 import sprhib.assignment.entity.LineItems;
 import sprhib.assignment.entity.Order;
@@ -27,9 +28,10 @@ public class OrderServiceImpl implements OrderService {
 	 @Override
 	 public void placeOrder(Order order) {
 		 
-		 if(sprhib.assignment.entity.Customer.Status.DISABLED.equals(order.getCustomer().getStatus())) {
+		 if(Customer.Status.DISABLED.equals(order.getCustomer().getStatus())) {
 			 System.out.println("Can Not Place Order Since CustomerStatus is DISABLED");
-		 }else {
+			 return;
+		 }
 	     
 		 boolean orderFailed = false;
 
@@ -57,7 +59,7 @@ public class OrderServiceImpl implements OrderService {
 	        }
 	        
 	        orderDAO.save(order);
-	    }
+	    
 	 }
 	
 	
