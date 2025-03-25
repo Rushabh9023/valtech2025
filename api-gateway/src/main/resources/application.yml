@@ -3,7 +3,7 @@ spring:
     name: API-GATEWAY
 
 server:
-  port: 9000
+  port: 8000
   
 eureka:
   client:

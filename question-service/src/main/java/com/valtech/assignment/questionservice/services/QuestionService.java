@@ -14,4 +14,6 @@ public interface QuestionService {
 
 	List<QuestionVO> findAllByTopic(String topic);
 
+	List<QuestionVO> getQuestionsByIds(List<Long> ids);
+
 }

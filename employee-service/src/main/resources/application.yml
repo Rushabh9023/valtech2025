@@ -1,6 +1,6 @@
 spring:
   application:
-    name: EMPLOYEESERVICE
+    name: EMPLOYEE-SERVICE
   
   datasource:
     url: jdbc:postgresql://localhost:5432/leavemanagement

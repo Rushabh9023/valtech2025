@@ -14,6 +14,7 @@ import com.valtech.training.leave.entities.LeaveMaster;
 import com.valtech.training.leave.repos.LeaveMasterRepo;
 import com.valtech.training.leave.repos.LeaveRepo;
 import com.valtech.training.leave.vos.ApproveLeaveVO;
+import com.valtech.training.leave.vos.EmployeeVO;
 import com.valtech.training.leave.vos.LeaveMasterVO;
 import com.valtech.training.leave.vos.LeaveVO;
 
@@ -45,7 +46,7 @@ public class LeaveServiceImpl implements LeaveService {
 		Leave leave = leaveRepo.getReferenceById(vo.leaveId());
 		
 		// we have to call EmployeeMicroService to understand the manager.
-		long manager = employeeClient.getManager(leave.getEmployeeId());  // get from the employee service..
+		long manager = employeeClient.getEmployeeAsManager(leave.getEmployeeId()).managerId();  // get from the employee service..
 		
 //		Additionally I am going to save the LeaveMaster as well....
 		if(manager == vo.manager()) {
@@ -119,6 +120,12 @@ public class LeaveServiceImpl implements LeaveService {
 		vo.updateTo(leave);
 		leave = leaveRepo.save(vo.to());
 		return LeaveVO.from(leave);
+	}
+
+	@Override
+	public EmployeeVO getManager(long employeeId) {
+		
+		return employeeClient.getEmployeeAsManager(employeeId);
 	}
 	
 }

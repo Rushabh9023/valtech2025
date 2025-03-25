@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.valtech.assignment.questionservice.entities.Question;
 import com.valtech.assignment.questionservice.repos.QuestionRepo;
 import com.valtech.assignment.questionservice.vos.QuestionVO;
 
@@ -37,5 +38,12 @@ public class QuestionServiceImpl implements QuestionService {
 	public List<QuestionVO> findAllByTopic(String topic) {
 		return questionRepo.findAllByTopic(topic).stream().map(q -> QuestionVO.from(q)).collect(Collectors.toList());
 	}
+	
+	  @Override
+	public List<QuestionVO> getQuestionsByIds(List<Long> ids) {
+	        List<Question> questions = questionRepo.findAllById(ids);
+	        
+	        return questions.stream().map(QuestionVO::from).collect(Collectors.toList());
+	    }
 
 }

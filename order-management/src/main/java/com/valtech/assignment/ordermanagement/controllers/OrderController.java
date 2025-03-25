@@ -22,11 +22,13 @@ public class OrderController {
 	@PostMapping("/placeOrder")
      public String placeOrder(@ModelAttribute PlaceOrderVO pVO, Model model) {
 		orderService.placeOrder(pVO);
+		 model.addAttribute("orders", orderService.getAllOrders());
 		return "placeOrder";
 	}
 	
 	@GetMapping("/placeOrder")
 	public String orders(Model model) {
+		 model.addAttribute("orders", orderService.getAllOrders());
 		return "placeOrder";
 	}
 }

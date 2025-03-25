@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:beans xmlns:p="http://www.springframework.org/schema/beans"
+	default-autowire="byType"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans spring-beans-3.2.xsd ">
+
+	<p:bean autowire="no"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<p:property name="annotatedClasses">
+			<p:list>
+				<p:value>spring.tx.Employee</p:value>
+			</p:list>
+		</p:property>
+		<p:property name="dataSource" ref="ds"></p:property>
+	</p:bean>
+
+	<p:bean id="txAdvice" class="spring.aop.revision.TxAdvice"></p:bean>
+
+	<p:bean id="employeeDAO"
+		class="org.springframework.aop.framework.ProxyFactoryBean">
+		<p:property name="target">
+			<p:bean class="spring.aop.revision.EmployeeDAOImpl"></p:bean>
+		</p:property>
+		<p:property name="interceptorNames">
+			<p:list>
+				<p:value>txAdvice</p:value>
+			</p:list>
+		</p:property>
+	</p:bean>
+
+	<p:import resource="classpath:jdbc.xml" />
+
+</p:beans>

@@ -24,7 +24,7 @@
 			
 			<tr>
 				<td colspan="2">
-				<input name="action" value="Add Order" type="submit" />
+				<input name="action" value="Place Order" type="submit" />
 				<input name="action" value="Cancle" type="reset" />
 				</td>
 				
